@@ -10,21 +10,24 @@ import java.util.List;
 /**
  *
  * @author Bryan
+ * @param <T> - Data type for question
  */
-public class StringQuestion implements Question {
-    private String question;
-    private List<PossibleStringAnswer> choices;
+public class GenericQuestion<T> implements Question {
+    private T question;
+    private List<PossibleAnswer> choices;
     
-    StringQuestion(String question, List<PossibleStringAnswer> choices){
+    GenericQuestion(T question, List<PossibleAnswer> choices){
         this.question = question;
         this.choices = choices;
     }
     
-    public String getQuestion(){
+    @Override
+    public T getQuestion(){
         return question;
     }
     
-    public List<PossibleStringAnswer> getPossibleAnswers(){
+    @Override
+    public List<PossibleAnswer> getPossibleAnswers(){
         return choices;
     }
 }

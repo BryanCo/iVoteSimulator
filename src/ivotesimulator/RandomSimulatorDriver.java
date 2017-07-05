@@ -19,25 +19,26 @@ public class RandomSimulatorDriver implements SimulatorDriver {
     private String[] answers = {"a", "b", "c", "d", "e", "f"};
     private Random r = new Random();
     
-    private StringQuestion createQuestion(String question){
-        List<PossibleStringAnswer> choices = new ArrayList();
+    private Question createQuestion(String question){
+        List<PossibleAnswer> choices = new ArrayList();
         for(String a : this.answers){
             boolean truth = (r.nextBoolean());
-            choices.add(new PossibleStringAnswer(a, truth));
+            choices.add(new GenericPossibleAnswer(a, truth));
         }
         
-        StringQuestion q = new StringQuestion(question, choices);
+        GenericQuestion q = new GenericQuestion(question, choices);
         
         return q;
     }
     
     private void simulateStudents(IVoteService service){
         for(String name : students){
-            NamedStudent s = new NamedStudent(name);
+            Student s = new GenericStudent(name);
             
             int numberOfOptions = service.getQuestion().getPossibleAnswers().size();
-            PossibleStringAnswer a = service.getQuestion().getPossibleAnswers().get(r.nextInt(numberOfOptions));
-            s.setAnswer(a);
+            List<PossibleAnswer> options = service.getQuestion().getPossibleAnswers();
+            PossibleAnswer answer = options.get(r.nextInt(numberOfOptions));
+            s.setAnswer(answer);
             
             service.recieveStudentAnswer(s);
         }
@@ -45,7 +46,7 @@ public class RandomSimulatorDriver implements SimulatorDriver {
 
     public void run(){
         for(String q : this.questions){
-            IVoteService service = new IVoteService(createQuestion(q));
+            IVoteService service = new GenericIVoteService(createQuestion(q));
             simulateStudents(service);
             service.displayStudentAnswers();
         }       

@@ -8,7 +8,9 @@ package ivotesimulator;
 /**
  *
  * @author Bryan
+ * @param <T> Data type for answer
  */
-public interface PossibleAnswerInterface {
-    
+public interface PossibleAnswer<T> {
+    public T getAnswer();
+    public Boolean getCorrectness();
 }

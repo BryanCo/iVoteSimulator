@@ -9,23 +9,26 @@ package ivotesimulator;
  *
  * @author Bryan
  */
-public class NamedStudent implements Student {
-    private String id;
-    private PossibleStringAnswer answer;
+public class GenericStudent<T> implements Student {
+    private T id;
+    private PossibleAnswer answer;
 
-    public PossibleStringAnswer getStudentAnswer() {
+    @Override
+    public PossibleAnswer getStudentAnswer() {
         return answer;
     }
 
-    public void setAnswer(PossibleStringAnswer answer) {
+    @Override
+    public void setAnswer(PossibleAnswer answer) {
         this.answer = answer;
     }
     
-    public String getId() {
+    @Override
+    public T getId() {
         return id;
     }
     
-    NamedStudent(String id){
+    GenericStudent(T id){
         this.id = id;
     }
     
