@@ -31,8 +31,8 @@ public class RandomSimulatorDriver implements SimulatorDriver {
         return q;
     }
     
-    private void simulateStudents(IVoteService service){
-        for(String name : students){
+    private void sendAnswersFor(String[] studentsList, IVoteService service){
+        for(String name : studentsList){
             Student s = new GenericStudent(name);
             
             int numberOfOptions = service.getQuestion().getPossibleAnswers().size();
@@ -43,11 +43,27 @@ public class RandomSimulatorDriver implements SimulatorDriver {
             service.recieveStudentAnswer(s);
         }
     }
+    
+    private void simulateStudents(IVoteService service){
+        sendAnswersFor(this.students, service);
+    }
+    
+    private void simulateStudentsChangingMind(IVoteService service){
+        int numIndecisiveStudents = r.nextInt(this.students.length);
+        String[] indecisiveStudents = new String[numIndecisiveStudents];
+        for(int i = 0; i < numIndecisiveStudents; i++){
+            indecisiveStudents[i] = this.students[r.nextInt(this.students.length)];
+        }
+        sendAnswersFor(indecisiveStudents, service);
+        
+    }
 
     public void run(){
         for(String q : this.questions){
             IVoteService service = new GenericIVoteService(createQuestion(q));
             simulateStudents(service);
+            service.displayStudentAnswers();
+            simulateStudentsChangingMind(service);
             service.displayStudentAnswers();
         }       
     }
