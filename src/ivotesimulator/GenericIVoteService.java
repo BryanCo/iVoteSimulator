@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ivotesimulator;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -39,7 +35,7 @@ public class GenericIVoteService implements IVoteService {
     
     @Override
     public void displayStudentAnswers(){
-        Map<PossibleAnswer, Integer> tally = new HashMap();
+        Map<PossibleAnswer<String>, Integer> tally = new TreeMap<>(new QuestionComparator());
         for(Student s: this.students.values()){
             if(tally.containsKey(s.getStudentAnswer())){
                 tally.put(s.getStudentAnswer(), tally.get(s.getStudentAnswer())+1 );
